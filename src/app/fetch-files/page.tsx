@@ -17,6 +17,7 @@ type File = {
     filenumber: '';
     file_url: '';
     file_type: '';
+    user_id: string;
 };
 
 export default function Files() {
@@ -57,8 +58,26 @@ export default function Files() {
             if (error) {
                 throw error;
             }
+            // Check if file.user_id is not null
+            if (file.user_id) {
+                // Fetch the associated user
+                const { data: user, error: userError } = await supabase
+                    .from('users')
+                    .select('user_id')
+                    .eq('user_id', file.user_id)
+                    .single(); // Use single() to fetch a single user
 
-            return file;
+                if (userError) {
+                    throw userError;
+                }
+
+                // Combine the file and user data
+                const fileWithUser = { ...file, user_id: user?.user_id };
+                return fileWithUser;
+            } else {
+                // If file.user_id is null, return the file without user information
+                return file;
+            }
         } catch (error: any) {
             console.error('Error fetching file by ID:', error.message);
         }
