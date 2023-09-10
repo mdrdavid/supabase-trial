@@ -18,7 +18,7 @@ export default function AddFileForm() {
         filenumber: '',
         file_url: '',
         file_type: '',
-        user_id: '',
+        user_ref: '',
         uploaded_by: null, // Initialize uploaded_by as null
     });
 
@@ -53,7 +53,7 @@ export default function AddFileForm() {
                             filename: selectedFile.name,
                             filenumber: formData.filenumber,
                             file_type: formData.file_type,
-                            user_id: userId,
+                            user_ref: userId,
                             uploaded_by: userId, // Store the user's ID in uploaded_by
                         },
                     ]);
@@ -176,13 +176,13 @@ export default function AddFileForm() {
                         htmlFor="user_id"
                         className="block text-gray-700 font-semibold"
                     >
-                        User ID
+                        User
                     </label>
                     <input
                         type="text"
-                        id="user_id"
-                        name="user_id"
-                        value={formData.user_id}
+                        id="user_ref"
+                        name="user_ref"
+                        value={formData.user_ref}
                         onChange={handleChange}
                         className="w-full p-2 border rounded focus:outline-none focus:ring focus:border-blue-500"
                         // required
