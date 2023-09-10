@@ -45,6 +45,30 @@ function SignUp() {
                 password: values.password,
                 phone: values.phone,
             });
+
+            if (error) {
+                throw error;
+            }
+            // Insert additional user details into the custom_users table
+            const { data: customUser, error: insertError } = await supabase
+                .from('custom_users')
+                .upsert([
+                    {
+                        id: data?.user?.id, // Link the custom user to the auth user using user_id
+                        username: values.username,
+                        // Add other custom user details here
+                    },
+                ]);
+
+            if (insertError) {
+                throw insertError;
+            }
+
+            console.log(
+                'User signed up and custom details stored:',
+                data?.user,
+                customUser
+            );
             console.log(data);
         } catch (error: any) {
             console.error('Error signing up:', error.message);
