@@ -24,6 +24,9 @@ const schema = z.object({
         .string()
         .min(8, 'Password must be at least 8 characters')
         .nonempty('Password is required'),
+    first_name: z.string().nonempty('First Name is required'), // Add First Name field
+    last_name: z.string().nonempty('Last Name is required'), // Add Last Name field
+    role: z.string().nonempty('Role is required'), // Add Role field
 });
 
 function SignUp() {
@@ -56,7 +59,11 @@ function SignUp() {
                     {
                         id: data?.user?.id, // Link the custom user to the auth user using user_id
                         username: values.username,
-                        // Add other custom user details here
+                        first_name: values.first_name,
+                        last_name: values.last_name,
+                        role: values.role,
+                        phone_number: values.phone,
+                        // more user details here
                     },
                 ]);
 
@@ -96,6 +103,47 @@ function SignUp() {
                     className="mt-8 space-y-5"
                 >
                     <div>
+                        <label className="font-medium">First Name</label>
+                        <input
+                            type="text"
+                            {...register('first_name')}
+                            className={`w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg ${
+                                errors.first_name
+                                    ? 'border-red-500'
+                                    : 'border-gray-300'
+                            }`}
+                        />
+
+                        {errors.first_name && (
+                            <p className="text-red-500 mt-2">
+                                {typeof errors.first_name.message === 'string'
+                                    ? errors.first_name.message
+                                    : 'An error occurred'}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="font-medium">Last Name</label>
+                        <input
+                            type="text"
+                            {...register('last_name')}
+                            className={`w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg ${
+                                errors.last_name
+                                    ? 'border-red-500'
+                                    : 'border-gray-300'
+                            }`}
+                        />
+
+                        {errors.last_name && (
+                            <p className="text-red-500 mt-2">
+                                {typeof errors.last_name.message === 'string'
+                                    ? errors.last_name.message
+                                    : 'An error occurred'}
+                            </p>
+                        )}
+                    </div>
+                    <div>
                         <label className="font-medium">Username</label>
                         <input
                             type="text"
@@ -106,16 +154,32 @@ function SignUp() {
                                     : 'border-gray-300'
                             }`}
                         />
-                        {/* {errors.username && (
-                            <p className="text-red-500 mt-2">
-                                {errors.username?.message}
-                            </p>
-                        )} */}
 
                         {errors.username && (
                             <p className="text-red-500 mt-2">
                                 {typeof errors.username.message === 'string'
                                     ? errors.username.message
+                                    : 'An error occurred'}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="font-medium">Role</label>
+                        <input
+                            type="text"
+                            {...register('role')}
+                            className={`w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg ${
+                                errors.role
+                                    ? 'border-red-500'
+                                    : 'border-gray-300'
+                            }`}
+                        />
+
+                        {errors.role && (
+                            <p className="text-red-500 mt-2">
+                                {typeof errors.role.message === 'string'
+                                    ? errors.role.message
                                     : 'An error occurred'}
                             </p>
                         )}
