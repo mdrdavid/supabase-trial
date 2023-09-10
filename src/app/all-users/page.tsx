@@ -22,7 +22,7 @@ export default function Clients() {
         async function fetchUsers() {
             try {
                 const { data: users, error } = await supabase
-                    .from('users')
+                    .from('custom_users')
                     .select('*');
 
                 if (error) {
@@ -38,7 +38,7 @@ export default function Clients() {
                             await supabase
                                 .from('files')
                                 .select('*')
-                                .eq('user_id', user.user_id);
+                                .eq('id', user.id);
 
                         if (filesError) {
                             console.error(
@@ -65,12 +65,12 @@ export default function Clients() {
     }, []);
 
     // Function to fetch a file by ID
-    const fetchUserById = async (user_id: number) => {
+    const fetchUserById = async (id: number) => {
         try {
             const { data: user, error } = await supabase
-                .from('users')
+                .from('custom_users')
                 .select('*')
-                .eq('user_id', user_id)
+                .eq('id', id)
                 .single(); // Use single() to fetch a single record
 
             if (error) {
@@ -80,7 +80,7 @@ export default function Clients() {
             const { data: files, error: filesError } = await supabase
                 .from('files')
                 .select('*')
-                .eq('user_id', user.user_id);
+                .eq('user_ref', user.id);
 
             if (filesError) {
                 console.error(
@@ -116,16 +116,16 @@ export default function Clients() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {users.map((user) => (
                         <div
-                            key={user.user_id}
+                            key={user.id}
                             className="bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition duration-300"
-                            onClick={() => handleUserClick(user.user_id)}
+                            onClick={() => handleUserClick(user.id)}
                         >
                             <h2 className="text-xl font-semibold mb-2">
-                                {user.firstname} {user.lastname}
+                                {user.first_name} {user.last_name}
                             </h2>
                             <p className="text-gray-600">{user.email}</p>
-                            <p className="text-gray-600">{user.phonenumber}</p>
-                            {/* <p className="text-gray-600">{user.password}</p> */}
+                            <p className="text-gray-600">{user.phone_number}</p>
+                            <p className="text-gray-600">{user.role}</p>
                         </div>
                     ))}
                 </div>
