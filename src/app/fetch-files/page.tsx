@@ -59,12 +59,12 @@ export default function Files() {
                 throw error;
             }
             // Check if file.user_id is not null
-            if (file.user_id) {
+            if (file.user_ref) {
                 // Fetch the associated user
                 const { data: user, error: userError } = await supabase
-                    .from('users')
-                    .select('user_id')
-                    .eq('user_id', file.user_id)
+                    .from('custom_users')
+                    .select('id')
+                    .eq('id', file.user_ref)
                     .single(); // Use single() to fetch a single user
 
                 if (userError) {
@@ -72,7 +72,7 @@ export default function Files() {
                 }
 
                 // Combine the file and user data
-                const fileWithUser = { ...file, user_id: user?.user_id };
+                const fileWithUser = { ...file, id: user?.id };
                 return fileWithUser;
             } else {
                 // If file.user_id is null, return the file without user information
