@@ -19,6 +19,7 @@ export default function AddFileForm() {
         file_url: '',
         file_type: '',
         user_ref: '',
+        client_ref: '',
         uploaded_by: null, // Initialize uploaded_by as null
     });
 
@@ -54,6 +55,7 @@ export default function AddFileForm() {
                             filenumber: formData.filenumber,
                             file_type: formData.file_type,
                             user_ref: userId,
+                            client_ref: formData.client_ref,
                             uploaded_by: userId, // Store the user's ID in uploaded_by
                         },
                     ]);
@@ -183,6 +185,23 @@ export default function AddFileForm() {
                         id="user_ref"
                         name="user_ref"
                         value={formData.user_ref}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded focus:outline-none focus:ring focus:border-blue-500"
+                        // required
+                    />
+                </div>
+                <div className="mb-4">
+                    <label
+                        htmlFor="user_id"
+                        className="block text-gray-700 font-semibold"
+                    >
+                        Client
+                    </label>
+                    <input
+                        type="text"
+                        id="client_ref"
+                        name="client_ref"
+                        value={formData.client_ref}
                         onChange={handleChange}
                         className="w-full p-2 border rounded focus:outline-none focus:ring focus:border-blue-500"
                         // required
